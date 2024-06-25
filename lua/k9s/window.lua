@@ -128,10 +128,10 @@ function window:openWindow(buf, widthPercentage, heightPercentage)
             true,
             {
                 relative='editor',
-                row=window:calculatewindowSizes()["row"],
-                col=window:calculatewindowSizes()["col"],
-                width=window:calculatewindowSizes()["winWidth"],
-                height=window:calculatewindowSizes()["winHeight"],
+                row=window:calculateWindowSizes()["row"],
+                col=window:calculateWindowSizes()["col"],
+                width=window:calculateWindowSizes()["winWidth"],
+                height=window:calculateWindowSizes()["winHeight"],
                 style="minimal"
             }
         )
