@@ -12,7 +12,7 @@ setmetatable(k9s, {
 
 function k9s.new()
     local self = setmetatable({}, k9s)
-    self.buffer = nil
+    self.buffer = false
     self.width = .8
     self.height = .5
     self.openned = false
@@ -24,7 +24,7 @@ function k9s:createBuffer(listed, scratch)
 end
 
 local function close(s)
-    s.buffer = nil
+    s.buffer = false
     s.openned = false
 end
 
