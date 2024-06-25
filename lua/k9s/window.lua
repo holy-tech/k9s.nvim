@@ -139,7 +139,7 @@ function window:openWindow(buf, widthPercentage, heightPercentage)
     --end
 
     vim.api.nvim_command(
-        [[au BufWipeout <buffer> exe ':lua require("nvim-k8s.window"):close()']]
+        [[au BufWipeout <buffer> exe ':lua require("k9s.window"):close()']]
     )
 end
 

@@ -1,17 +1,17 @@
-local window = require("nvim-k8s.window")
+local window = require("k9s.window")
 local vim = vim
 local cmd = vim.api.nvim_command
-local k8s = {}
-k8s.__index = k8s
+local k9s = {}
+k9s.__index = k9s
 
-setmetatable(k8s, {
+setmetatable(k9s, {
     __call = function (cls)
         return cls.new()
     end
 })
 
-function k8s.new()
-    local self = setmetatable({}, k8s)
+function k9s.new()
+    local self = setmetatable({}, k9s)
     self.buffer = nil
     self.width = .8
     self.height = .5
@@ -19,7 +19,7 @@ function k8s.new()
     return self
 end
 
-function k8s:createBuffer(listed, scratch)
+function k9s:createBuffer(listed, scratch)
     return vim.api.nvim_create_buf(listed, scratch)
 end
 
@@ -28,11 +28,11 @@ local function close(s)
     s.openned = false
 end
 
-function k8s:open()
+function k9s:open()
     local bufCreated = false
 
     if not self.buffer then
-        self.buffer = k8s:createBuffer(false, true)
+        self.buffer = k9s:createBuffer(false, true)
         bufCreated = true
     end
 
@@ -49,7 +49,7 @@ function k8s:open()
     self.openned = true
 end
 
-function k8s:toggle()
+function k9s:toggle()
     if self.openned == true then
         self:hide()
     else
@@ -57,9 +57,9 @@ function k8s:toggle()
     end
 end
 
-function k8s:hide()
+function k9s:hide()
     window:hide()
     self.openned = false
 end
 
-return k8s()
+return k9s()
