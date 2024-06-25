@@ -36,16 +36,16 @@ function RepeatArray(arr, times)
     return result
 end
 
-function window:createBuffer(listed, scratch)
+function window.createBuffer(listed, scratch)
     return vim.api.nvim_create_buf(listed, scratch)
 end
 
-function window:setSize(widthPercentage, heightPercentage)
+function window.setSize(widthPercentage, heightPercentage)
     window.winWidth = widthPercentage
     window.winHeight = heightPercentage
 end
 
-function window:calculateBackgroundSizes()
+function window.calculateBackgroundSizes()
     local width = vim.api.nvim_get_option("columns")
     local height = vim.api.nvim_get_option("lines")
 
@@ -63,7 +63,7 @@ function window:calculateBackgroundSizes()
     }
 end
 
-function window:calculateWindowSizes()
+function window.calculateWindowSizes()
     local width = vim.api.nvim_get_option("columns")
     local height = vim.api.nvim_get_option("lines")
 
@@ -80,7 +80,7 @@ function window:calculateWindowSizes()
     }
 end
 
-function window:decorateBuffer(buf, width, height)
+function window.decorateBuffer(buf, width, height)
     local top = "╭" .. RepeatText("─", width - 2) .. "╮"
     local mid = RepeatArray("│" .. RepeatText(" ", width - 2) .. "│", height - 2)
     local bot = "╰" .. RepeatText("─", width - 2) .. "╯"
@@ -94,17 +94,17 @@ function window:decorateBuffer(buf, width, height)
     vim.api.nvim_buf_set_lines(buf, 0, -1, true, lines)
 end
 
-function window:openWindow(buf, widthPercentage, heightPercentage)
+function window.openWindow(buf, widthPercentage, heightPercentage)
     if widthPercentage and heightPercentage then
-        window:setSize(widthPercentage, heightPercentage)
+        window.setSize(widthPercentage, heightPercentage)
     end
 
-    window.bgBuffer = window.bgBuffer or window:createBuffer(false, true)
+    window.bgBuffer = window.bgBuffer or window.createBuffer(false, true)
 
-    window:decorateBuffer(
+    window.decorateBuffer(
         window.bgBuffer,
-        window:calculateBackgroundSizes()["bgWinWidth"],
-        window:calculateBackgroundSizes()["bgWinHeight"]
+        window.calculateBackgroundSizes()["bgWinWidth"],
+        window.calculateBackgroundSizes()["bgWinHeight"]
     )
 
     window.bgWin = vim.api.nvim_open_win(
@@ -112,10 +112,10 @@ function window:openWindow(buf, widthPercentage, heightPercentage)
         true,
         {
             relative='editor',
-            row=window:calculateBackgroundSizes()["bgRow"],
-            col=window:calculateBackgroundSizes()["bgCol"],
-            width=window:calculateBackgroundSizes()["bgWinWidth"],
-            height=window:calculateBackgroundSizes()["bgWinHeight"],
+            row=window.calculateBackgroundSizes()["bgRow"],
+            col=window.calculateBackgroundSizes()["bgCol"],
+            width=window.calculateBackgroundSizes()["bgWinWidth"],
+            height=window.calculateBackgroundSizes()["bgWinHeight"],
             style="minimal"
         }
     )
@@ -128,10 +128,10 @@ function window:openWindow(buf, widthPercentage, heightPercentage)
             true,
             {
                 relative='editor',
-                row=window:calculateWindowSizes()["row"],
-                col=window:calculateWindowSizes()["col"],
-                width=window:calculateWindowSizes()["winWidth"],
-                height=window:calculateWindowSizes()["winHeight"],
+                row=window.calculateWindowSizes()["row"],
+                col=window.calculateWindowSizes()["col"],
+                width=window.calculateWindowSizes()["winWidth"],
+                height=window.calculateWindowSizes()["winHeight"],
                 style="minimal"
             }
         )
@@ -142,7 +142,7 @@ function window:openWindow(buf, widthPercentage, heightPercentage)
     )
 end
 
-function window:close()
+function window.close()
     print("buff wiped out")
     if window.bgWin and vim.api.nvim_win_is_valid(window.bgWin) then
         vim.api.nvim_win_close(window.bgWin, {})
@@ -155,7 +155,7 @@ function window:close()
     end
 end
 
-function window:hide()
+function window.hide()
     if window.win and vim.api.nvim_win_is_valid(window.win) then
         vim.api.nvim_win_hide(window.win)
     end
@@ -164,32 +164,32 @@ function window:hide()
     end
 end
 
-function window:onClose(origin, fun)
+function window.onClose(origin, fun)
     if fun ~= nil then
         window.onClose = fun
         window.onCloseOrigin = origin
     end
 end
 
-function window:onResize()
+function window.onResize()
     vim.api.nvim_win_set_config(window.bgBuf, {
-        width = window:calculateBackgroundSizes()["bgWinWidth"],
-        height = window:calculateBackgroundSizes()["bgWinHeight"],
-        col = window:calculateBackgroundSizes()["bgCol"],
-        row = window:calculateBackgroundSizes()["bgRow"],
+        width = window.calculateBackgroundSizes()["bgWinWidth"],
+        height = window.calculateBackgroundSizes()["bgWinHeight"],
+        col = window.calculateBackgroundSizes()["bgCol"],
+        row = window.calculateBackgroundSizes()["bgRow"],
     })
 
-    window:decorateBuffer(
+    window.decorateBuffer(
         window.bgBuf,
-        window:calculateBackgroundSizes()["bgWinWidth"],
-        window:calculateBackgroundSizes()["bgWinHeight"]
+        window.calculateBackgroundSizes()["bgWinWidth"],
+        window.calculateBackgroundSizes()["bgWinHeight"]
     )
 
     vim.api.nvim_win_set_config(window.win, {
-        width = window:calculateWindowSizes()["winWidth"],
-        height = window:calculateWindowSizes()["winHeight"],
-        col = window:calculateWindowSizes()["col"],
-        row = window:calculateWindowSizes()["row"],
+        width = window.calculateWindowSizes()["winWidth"],
+        height = window.calculateWindowSizes()["winHeight"],
+        col = window.calculateWindowSizes()["col"],
+        row = window.calculateWindowSizes()["row"],
     })
 end
 
