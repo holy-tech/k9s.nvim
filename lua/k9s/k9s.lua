@@ -38,7 +38,9 @@ function k9s.open()
     window.openWindow(k9s.buffer, k9s.width, k9s.height)
 
     if bufCreated then
-        vim.fn.termopen('k9s')
+        vim.fn.termopen('k9s', {
+	    on_exit = function() end,
+	})
     end
 
     window.onClose(k9s, close)
