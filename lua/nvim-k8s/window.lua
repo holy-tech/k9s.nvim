@@ -1,15 +1,15 @@
 local vim = vim
-local Window = {}
-Window.__index = Window
+local window = {}
+window.__index = window
 
-setmetatable(Window, {
+setmetatable(window, {
     __call = function (class)
         return class.new()
     end
 })
 
-function Window.new()
-    local self = setmetatable({}, Window)
+function window.new()
+    local self = setmetatable({}, window)
     self.bgBuffer = nil
     self.bgWin = nil
     self.win = nil
@@ -37,16 +37,16 @@ function RepeatArray(arr, times)
     return result
 end
 
-function Window:createBuffer(listed, scratch)
+function window:createBuffer(listed, scratch)
     return vim.api.nvim_create_buf(listed, scratch)
 end
 
-function Window:setSize(widthPercentage, heightPercentage)
+function window:setSize(widthPercentage, heightPercentage)
     self.winWidth = widthPercentage
     self.winHeight = heightPercentage
 end
 
-function Window:calculateBackgroundSizes()
+function window:calculateBackgroundSizes()
     local width = vim.api.nvim_get_option("columns")
     local height = vim.api.nvim_get_option("lines")
 
@@ -64,7 +64,7 @@ function Window:calculateBackgroundSizes()
     }
 end
 
-function Window:calculateWindowSizes()
+function window:calculateWindowSizes()
     local width = vim.api.nvim_get_option("columns")
     local height = vim.api.nvim_get_option("lines")
 
@@ -81,7 +81,7 @@ function Window:calculateWindowSizes()
     }
 end
 
-function Window:decorateBuffer(buf, width, height)
+function window:decorateBuffer(buf, width, height)
     local top = "╭" .. RepeatText("─", width - 2) .. "╮"
     local mid = RepeatArray("│" .. RepeatText(" ", width - 2) .. "│", height - 2)
     local bot = "╰" .. RepeatText("─", width - 2) .. "╯"
@@ -95,7 +95,7 @@ function Window:decorateBuffer(buf, width, height)
     vim.api.nvim_buf_set_lines(buf, 0, -1, true, lines)
 end
 
-function Window:openWindow(buf, widthPercentage, heightPercentage)
+function window:openWindow(buf, widthPercentage, heightPercentage)
     if widthPercentage and heightPercentage then
         self:setSize(widthPercentage, heightPercentage)
     end
@@ -129,21 +129,21 @@ function Window:openWindow(buf, widthPercentage, heightPercentage)
             true,
             {
                 relative='editor',
-                row=self:calculateWindowSizes()["row"],
-                col=self:calculateWindowSizes()["col"],
-                width=self:calculateWindowSizes()["winWidth"],
-                height=self:calculateWindowSizes()["winHeight"],
+                row=self:calculatewindowSizes()["row"],
+                col=self:calculatewindowSizes()["col"],
+                width=self:calculatewindowSizes()["winWidth"],
+                height=self:calculatewindowSizes()["winHeight"],
                 style="minimal"
             }
         )
     --end
 
     vim.api.nvim_command(
-        [[au BufWipeout <buffer> exe ':lua require("nvim-k8s.Window"):close()']]
+        [[au BufWipeout <buffer> exe ':lua require("nvim-k8s.window"):close()']]
     )
 end
 
-function Window:close()
+function window:close()
     print("buff wiped out")
     if self.bgWin and vim.api.nvim_win_is_valid(self.bgWin) then
         vim.api.nvim_win_close(self.bgWin, {})
@@ -156,7 +156,7 @@ function Window:close()
     end
 end
 
-function Window:hide()
+function window:hide()
     if self.win and vim.api.nvim_win_is_valid(self.win) then
         vim.api.nvim_win_hide(self.win)
     end
@@ -165,14 +165,14 @@ function Window:hide()
     end
 end
 
-function Window:onClose(origin, fun)
+function window:onClose(origin, fun)
     if fun ~= nil then
         self.onClose = fun
         self.onCloseOrigin = origin
     end
 end
 
-function Window:onResize()
+function window:onResize()
     vim.api.nvim_win_set_config(self.bgBuf, {
         width = self:calculateBackgroundSizes()["bgWinWidth"],
         height = self:calculateBackgroundSizes()["bgWinHeight"],
@@ -194,4 +194,4 @@ function Window:onResize()
     })
 end
 
-return Window()
+return window()

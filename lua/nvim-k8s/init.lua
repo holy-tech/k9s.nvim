@@ -1,4 +1,4 @@
-local k8s = require("nvim-k8s.K8s")
+local k8s = require("nvim-k8s.k8s")
 local vim = vim
 
 local function setupMapping()
@@ -7,14 +7,14 @@ local function setupMapping()
     vim.api.nvim_set_keymap(
         't',
         keyMap,
-        '<C-\\><C-n><CMD>lua require("nvim-k8s.K8s"):toggle()<CR>',
+        '<C-\\><C-n><CMD>lua require("nvim-k8s.k8s"):toggle()<CR>',
         { noremap = true, silent = true }
     )
 
     vim.api.nvim_set_keymap(
         'n',
         keyMap,
-        '<C-\\><C-n><CMD>lua require("nvim-k8s.K8s"):toggle()<CR>',
+        '<C-\\><C-n><CMD>lua require("nvim-k8s.k8s"):toggle()<CR>',
         { noremap = true, silent = true }
     )
 end

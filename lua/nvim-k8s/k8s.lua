@@ -1,17 +1,17 @@
-local Window = require("nvim-k8s.Window")
+local window = require("nvim-k8s.window")
 local vim = vim
 local cmd = vim.api.nvim_command
-local K8s = {}
-K8s.__index = K8s
+local k8s = {}
+k8s.__index = k8s
 
-setmetatable(K8s, {
+setmetatable(k8s, {
     __call = function (cls)
         return cls.new()
     end
 })
 
-function K8s.new()
-    local self = setmetatable({}, K8s)
+function k8s.new()
+    local self = setmetatable({}, k8s)
     self.buffer = nil
     self.width = .8
     self.height = .5
@@ -19,7 +19,7 @@ function K8s.new()
     return self
 end
 
-function K8s:createBuffer(listed, scratch)
+function k8s:createBuffer(listed, scratch)
     return vim.api.nvim_create_buf(listed, scratch)
 end
 
@@ -28,28 +28,28 @@ local function close(s)
     s.openned = false
 end
 
-function K8s:open()
+function k8s:open()
     local bufCreated = false
 
     if not self.buffer then
-        self.buffer = K8s:createBuffer(false, true)
+        self.buffer = k8s:createBuffer(false, true)
         bufCreated = true
     end
 
-    Window:openWindow(self.buffer, self.width, self.height)
+    window:openWindow(self.buffer, self.width, self.height)
 
     if bufCreated then
         vim.fn.termopen('k9s')
     end
 
-     Window:onClose(self, close)
+     window:onClose(self, close)
 
     cmd("startinsert")
 
     self.openned = true
 end
 
-function K8s:toggle()
+function k8s:toggle()
     if self.openned == true then
         self:hide()
     else
@@ -57,9 +57,9 @@ function K8s:toggle()
     end
 end
 
-function K8s:hide()
-    Window:hide()
+function k8s:hide()
+    window:hide()
     self.openned = false
 end
 
-return K8s()
+return k8s()
