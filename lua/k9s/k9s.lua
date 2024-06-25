@@ -11,12 +11,11 @@ setmetatable(k9s, {
 })
 
 function k9s.new()
-    local self = setmetatable({}, k9s)
-    self.buffer = false
-    self.width = .8
-    self.height = .5
-    self.openned = false
-    return self
+    k9s.buffer = false
+    k9s.width = .8
+    k9s.height = .5
+    k9s.openned = false
+    return k9s
 end
 
 function k9s:createBuffer(listed, scratch)
@@ -31,35 +30,35 @@ end
 function k9s:open()
     local bufCreated = false
 
-    if not self.buffer then
-        self.buffer = k9s:createBuffer(false, true)
+    if not k9s.buffer then
+        k9s.buffer = k9s:createBuffer(false, true)
         bufCreated = true
     end
 
-    window:openWindow(self.buffer, self.width, self.height)
+    window:openWindow(k9s.buffer, k9s.width, k9s.height)
 
     if bufCreated then
         vim.fn.termopen('k9s')
     end
 
-     window:onClose(self, close)
+     window:onClose(k9s, close)
 
     cmd("startinsert")
 
-    self.openned = true
+    k9s.openned = true
 end
 
 function k9s:toggle()
-    if self.openned == true then
-        self:hide()
+    if k9s.openned == true then
+        k9s:hide()
     else
-        self:open()
+        k9s:open()
     end
 end
 
 function k9s:hide()
     window:hide()
-    self.openned = false
+    k9s.openned = false
 end
 
 return k9s()
