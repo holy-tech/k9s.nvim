@@ -9,12 +9,6 @@ setmetatable(window, {
 })
 
 function window.new()
-    window.bgBuffer = nil
-    window.bgWin = nil
-    window.win = nil
-    window.onClose = nil
-    window.onCloseOrigin = nil
-
     window.widthPercentage = .8
     window.heightPercentage = .6
     return window
