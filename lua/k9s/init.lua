@@ -7,14 +7,14 @@ local function setupMapping()
     vim.api.nvim_set_keymap(
         't',
         keyMap,
-        '<C-\\><C-n><CMD>lua require("nvim-k9s.k9s"):toggle()<CR>',
+        '<C-\\><C-n><CMD>lua require("nvim-k9s.k9s").toggle()<CR>',
         { noremap = true, silent = true }
     )
 
     vim.api.nvim_set_keymap(
         'n',
         keyMap,
-        '<C-\\><C-n><CMD>lua require("nvim-k9s.k9s"):toggle()<CR>',
+        '<C-\\><C-n><CMD>lua require("nvim-k9s.k9s").toggle()<CR>',
         { noremap = true, silent = true }
     )
 end

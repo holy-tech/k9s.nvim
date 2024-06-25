@@ -18,7 +18,7 @@ function k9s.new()
     return k9s
 end
 
-function k9s:createBuffer(listed, scratch)
+function k9s.createBuffer(listed, scratch)
     return vim.api.nvim_create_buf(listed, scratch)
 end
 
@@ -27,37 +27,37 @@ local function close(s)
     s.openned = false
 end
 
-function k9s:open()
+function k9s.open()
     local bufCreated = false
 
     if not k9s.buffer then
-        k9s.buffer = k9s:createBuffer(false, true)
+        k9s.buffer = k9s.createBuffer(false, true)
         bufCreated = true
     end
 
-    window:openWindow(k9s.buffer, k9s.width, k9s.height)
+    window.openWindow(k9s.buffer, k9s.width, k9s.height)
 
     if bufCreated then
         vim.fn.termopen('k9s')
     end
 
-     window:onClose(k9s, close)
+    window.onClose(k9s, close)
 
     cmd("startinsert")
 
     k9s.openned = true
 end
 
-function k9s:toggle()
+function k9s.toggle()
     if k9s.openned == true then
-        k9s:hide()
+        k9s.hide()
     else
-        k9s:open()
+        k9s.open()
     end
 end
 
-function k9s:hide()
-    window:hide()
+function k9s.hide()
+    window.hide()
     k9s.openned = false
 end
 
